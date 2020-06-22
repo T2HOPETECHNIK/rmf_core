@@ -95,6 +95,37 @@ private:
   rxcpp::subscription _subscription;
 };
 
+class Leakage
+{
+public:
+
+  Leakage(std::size_t line, std::string func)
+    : _line(line),
+      _func(std::move(func))
+  {
+    _print('+');
+  }
+
+  ~Leakage()
+  {
+    _print('-');
+  }
+
+private:
+  std::size_t _line;
+  std::string _func;
+
+  void _print(char prefix)
+  {
+    std::ostringstream oss;
+    oss << prefix << this << "[" << _func << "/" << _line << "]\n";
+    std::cout << oss.str() << std::flush;
+  }
+};
+
+#define CHECK_LEAK \
+  leakage = std::make_shared<::rmf_rxcpp::Leakage>(__LINE__, __PRETTY_FUNCTION__)
+
 } // namespace rmf_rxcpp
 
 #endif //RMF_RXCPP__RXJOBS_HPP

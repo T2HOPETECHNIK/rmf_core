@@ -128,7 +128,7 @@ void GoToPlace::Active::respond(
       rmf_rxcpp::make_job<services::Negotiate::Result>(negotiate)
       .observe_on(rxcpp::identity_same_worker(_context->worker()))
       .subscribe(
-        [w = weak_from_this()](const auto& result)
+        [w = weak_from_this(), CHECK_LEAK](const auto& result)
   {
     if (auto phase = w.lock())
     {
@@ -148,7 +148,7 @@ void GoToPlace::Active::respond(
   const auto wait_duration = 2s + table_viewer->sequence().back().version * 10s;
   auto negotiate_timer = _context->node()->create_wall_timer(
         wait_duration,
-        [s = negotiate->weak_from_this()]
+        [s = negotiate->weak_from_this(), CHECK_LEAK]
   {
     if (const auto service = s.lock())
       service->interrupt();
@@ -212,7 +212,7 @@ void GoToPlace::Active::find_plan()
         _find_path_service)
       .observe_on(rxcpp::identity_same_worker(_context->worker()))
       .subscribe(
-        [w = weak_from_this()](
+        [w = weak_from_this(), CHECK_LEAK](
         const services::FindPath::Result& result)
   {
     const auto phase = w.lock();
@@ -239,7 +239,7 @@ void GoToPlace::Active::find_plan()
         std::chrono::seconds(10),
         [s = std::weak_ptr<services::FindPath>(_find_path_service),
          p = weak_from_this(),
-         t = rclcpp::TimerBase::WeakPtr(_find_path_timer)]()
+         t = rclcpp::TimerBase::WeakPtr(_find_path_timer), CHECK_LEAK]()
   {
     if (const auto service = s.lock())
       service->interrupt();

@@ -79,7 +79,8 @@ void Negotiate::operator()(const Subscriber& s)
             shared_from_this(),
             [r = *_evaluator.best_result.progress,
              approval = std::move(_approval),
-             responder = std::move(_responder)]()
+             responder = std::move(_responder),
+             CHECK_LEAK]()
             {
               responder->submit(
                     r->get_itinerary(),
@@ -106,7 +107,7 @@ void Negotiate::operator()(const Subscriber& s)
         s.on_next(
           Result{
             shared_from_this(),
-            [alts = *_alternatives, responder = _responder]()
+            [alts = *_alternatives, responder = _responder, CHECK_LEAK]()
             {
               responder->reject(alts);
             }
@@ -124,7 +125,7 @@ void Negotiate::operator()(const Subscriber& s)
         s.on_next(
           Result{
             shared_from_this(),
-            [n = shared_from_this()]()
+            [n = shared_from_this(), CHECK_LEAK]()
             {
               std::vector<rmf_traffic::schedule::ParticipantId> blockers(
                     n->_blockers.begin(), n->_blockers.end());
