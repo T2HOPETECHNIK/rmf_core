@@ -1,0 +1,25 @@
+-
+  ros1_package_name: 'arm_server'
+  ros1_message_name: 'MyTime'
+  ros2_package_name: 'rmf_dispenser_msgs'
+  ros2_message_name: 'MyTime'
+-
+  ros1_package_name: 'arm_server'
+  ros1_message_name: 'DispenserResult'
+  ros2_package_name: 'rmf_dispenser_msgs'
+  ros2_message_name: 'DispenserResult'
+-
+  ros1_package_name: 'arm_server'
+  ros1_message_name: 'DispenserState'
+  ros2_package_name: 'rmf_dispenser_msgs'
+  ros2_message_name: 'DispenserState'
+-
+  ros1_package_name: 'arm_server'
+  ros1_message_name: 'DispenserRequest'
+  ros2_package_name: 'rmf_dispenser_msgs'
+  ros2_message_name: 'DispenserRequest'
+-
+  ros1_package_name: 'arm_server'
+  ros1_message_name: 'DispenserRequestItem'
+  ros2_package_name: 'rmf_dispenser_msgs'
+  ros2_message_name: 'DispenserRequestItem'
